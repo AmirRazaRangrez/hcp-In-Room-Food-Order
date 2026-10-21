@@ -162,6 +162,10 @@ export async function submitRoomOrder({ roomNumber, guestName, items, notes = ''
     gst,
     grandTotal,
     items: cleanItems,
-    placedAt: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })
+    notes: notes.trim(),
+    placedAt: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true }),
+    placedDate: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
+    fullTimestamp: new Date().toISOString(),
+    status: 'Received in Kitchen'
   };
 }

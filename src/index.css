@@ -1,39 +1,48 @@
 :root {
-  --primary: #d97706;
-  --primary-hover: #b45309;
-  --primary-light: #fef3c7;
-  --bg-dark: #0b1120;
-  --card-bg: #1e293b;
-  --card-border: #334155;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --veg-color: #10b981;
-  --nonveg-color: #ef4444;
+  --zomato-red: #e23744;
+  --zomato-red-dark: #cb202d;
+  --zomato-red-light: #fef2f2;
+  --zomato-bg: #f8f9fa;
+  --zomato-card-bg: #ffffff;
+  --zomato-border: #e8e8ed;
+  --zomato-text-main: #1c1c1c;
+  --zomato-text-muted: #696969;
+  --zomato-text-sub: #828282;
+  --veg-color: #0f8a3c;
+  --nonveg-color: #e23744;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-dark);
-  color: var(--text-main);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--zomato-bg);
+  color: var(--zomato-text-main);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #f1f1f5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #d1d5db;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #9ca3af;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -42,21 +51,6 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-/* Glassmorphism */
-.glass-panel {
-  background: rgba(30, 41, 59, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-nav {
-  background: rgba(15, 23, 42, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Animations */
@@ -71,16 +65,16 @@ body {
 }
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 15px rgba(217, 119, 6, 0.3); }
-  50% { box-shadow: 0 0 25px rgba(217, 119, 6, 0.6); }
+  0%, 100% { box-shadow: 0 4px 16px rgba(226, 55, 68, 0.35); }
+  50% { box-shadow: 0 8px 24px rgba(226, 55, 68, 0.6); }
 }
 
 .animate-fade {
-  animation: fadeIn 0.25s ease-out forwards;
+  animation: fadeIn 0.22s ease-out forwards;
 }
 
 .animate-slide-up {
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .pulse-glow {
