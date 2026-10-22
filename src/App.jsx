@@ -182,7 +182,7 @@ export default function App() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundColor: '#f8f9fa',
+        backgroundColor: '#fcf9fb',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -193,14 +193,23 @@ export default function App() {
         <div style={{
           width: '52px',
           height: '52px',
-          border: '4px solid #fecdd3',
-          borderTop: '4px solid #e23744',
+          border: '4px solid #fbd3e4',
+          borderTop: '4px solid #8c5d77',
           borderRadius: '50%',
           animation: 'spin 0.8s linear infinite',
-          marginBottom: '16px'
+          marginBottom: '20px'
         }} />
-        <h3 style={{ margin: '0 0 6px', color: '#1c1c1c', fontWeight: 800 }}>Hotel City Park</h3>
-        <p style={{ margin: 0, color: '#696969', fontSize: '0.9rem' }}>Loading restaurant menu...</p>
+        <img
+          src="/hcp-logo-with-name-transparent.png"
+          alt="Hotel City Park"
+          style={{ height: '46px', width: 'auto', marginBottom: '12px', objectFit: 'contain' }}
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/logo.png';
+          }}
+        />
+        <h3 style={{ margin: '0 0 6px', color: '#21181f', fontWeight: 800 }}>Hotel City Park</h3>
+        <p style={{ margin: 0, color: '#6e5e68', fontSize: '0.9rem' }}>Loading restaurant menu...</p>
         <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
       </div>
     );
@@ -210,7 +219,7 @@ export default function App() {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundColor: '#f8f9fa',
+        backgroundColor: '#fcf9fb',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -218,21 +227,31 @@ export default function App() {
         padding: '24px',
         textAlign: 'center'
       }}>
-        <div style={{ fontSize: '3rem', marginBottom: '14px' }}>🍽️</div>
-        <h3 style={{ margin: '0 0 8px', color: '#e23744', fontWeight: 800 }}>Unable to Load Menu</h3>
-        <p style={{ margin: '0 0 20px', color: '#696969', maxWidth: '320px', fontSize: '0.9rem', lineHeight: '1.4' }}>
+        <img
+          src="/hcp-logo-with-name-transparent.png"
+          alt="Hotel City Park"
+          style={{ height: '48px', width: 'auto', marginBottom: '16px', objectFit: 'contain' }}
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/logo.png';
+          }}
+        />
+        <div style={{ fontSize: '2.5rem', marginBottom: '14px' }}>🍽️</div>
+        <h3 style={{ margin: '0 0 8px', color: '#8c5d77', fontWeight: 800 }}>Unable to Load Menu</h3>
+        <p style={{ margin: '0 0 20px', color: '#6e5e68', maxWidth: '320px', fontSize: '0.9rem', lineHeight: '1.4' }}>
           {error}
         </p>
         <button
           onClick={() => window.location.reload()}
           style={{
-            backgroundColor: '#e23744',
+            backgroundColor: '#8c5d77',
             color: '#ffffff',
             border: 'none',
             borderRadius: '10px',
             padding: '12px 24px',
             fontWeight: 800,
-            cursor: 'pointer'
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(140, 93, 119, 0.3)'
           }}
         >
           Try Again 🔄
@@ -242,54 +261,63 @@ export default function App() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f8f9fa', color: '#1c1c1c', paddingBottom: totalCount > 0 ? '90px' : '40px' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#fcf9fb', color: '#21181f', paddingBottom: totalCount > 0 ? '90px' : '40px' }}>
       
       {/* ========================================================
-          1. ZOMATO-STYLE BRAND HEADER
+          1. HOTEL CITY PARK BRAND HEADER WITH OFFICIAL LOGO
          ======================================================== */}
       <header style={{
         position: 'sticky',
         top: 0,
         zIndex: 50,
         backgroundColor: '#ffffff',
-        borderBottom: '1px solid #e8e8ed',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        borderBottom: '1px solid rgba(199, 163, 184, 0.35)',
+        boxShadow: '0 2px 10px rgba(140, 93, 119, 0.06)'
       }}>
         <div style={{
           maxWidth: '640px',
           margin: '0 auto',
-          padding: '12px 16px',
+          padding: '10px 16px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          gap: '12px'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{
-              width: '38px',
-              height: '38px',
-              borderRadius: '10px',
-              backgroundColor: '#e23744',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#ffffff',
-              fontSize: '1.2rem',
-              boxShadow: '0 4px 10px rgba(226, 55, 68, 0.3)'
-            }}>
-              🏨
-            </div>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <h1 style={{ fontSize: '1.05rem', fontWeight: 900, color: '#1c1c1c', margin: 0, letterSpacing: '-0.02em' }}>
-                  Hotel City Park
-                </h1>
-                <span style={{ fontSize: '0.68rem', backgroundColor: '#fef2f2', color: '#e23744', padding: '1px 6px', borderRadius: '4px', fontWeight: 800 }}>
-                  In-Room Dining
-                </span>
-              </div>
-              <div style={{ fontSize: '0.78rem', color: '#696969', margin: '1px 0 0' }}>
-                {session?.guest?.name ? `Welcome, ${session.guest.name}` : 'Room Service Menu'}
-              </div>
+          {/* Official Logo with Name */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+            <img
+              src="/hcp-logo-with-name-transparent.png"
+              alt="Hotel City Park"
+              style={{
+                height: '42px',
+                width: 'auto',
+                maxWidth: '170px',
+                objectFit: 'contain',
+                display: 'block'
+              }}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = '/logo.png';
+              }}
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+              <span style={{
+                fontSize: '0.66rem',
+                backgroundColor: '#fef4f8',
+                color: '#8c5d77',
+                padding: '2px 7px',
+                borderRadius: '6px',
+                fontWeight: 850,
+                border: '1px solid rgba(199, 163, 184, 0.35)',
+                display: 'inline-block',
+                width: 'fit-content',
+                letterSpacing: '0.03em'
+              }}>
+                IN-ROOM DINING
+              </span>
+              <span style={{ fontSize: '0.74rem', color: '#6e5e68', marginTop: '2px', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {session?.guest?.name ? `Welcome, ${session.guest.name}` : 'Solapur'}
+              </span>
             </div>
           </div>
 
@@ -298,12 +326,14 @@ export default function App() {
             display: 'flex',
             alignItems: 'center',
             gap: '5px',
-            backgroundColor: '#1c1c1c',
+            backgroundColor: '#8c5d77',
             color: '#ffffff',
-            padding: '6px 12px',
+            padding: '6px 13px',
             borderRadius: '20px',
             fontSize: '0.8rem',
-            fontWeight: 800
+            fontWeight: 800,
+            boxShadow: '0 2px 8px rgba(140, 93, 119, 0.25)',
+            flexShrink: 0
           }}>
             <span>🚪</span>
             <span>Room {selectedRoom}</span>
@@ -315,26 +345,27 @@ export default function App() {
           maxWidth: '640px',
           margin: '0 auto',
           display: 'flex',
-          borderTop: '1px solid #f1f1f5'
+          borderTop: '1px solid rgba(199, 163, 184, 0.2)'
         }}>
           <button
             type="button"
             onClick={() => setActiveTab('menu')}
             style={{
               flex: 1,
-              padding: '10px',
+              padding: '11px',
               textAlign: 'center',
-              backgroundColor: activeTab === 'menu' ? '#ffffff' : '#f8f9fa',
-              color: activeTab === 'menu' ? '#e23744' : '#696969',
+              backgroundColor: activeTab === 'menu' ? '#ffffff' : '#faf3f7',
+              color: activeTab === 'menu' ? '#8c5d77' : '#6e5e68',
               border: 'none',
-              borderBottom: activeTab === 'menu' ? '2.5px solid #e23744' : '2.5px solid transparent',
+              borderBottom: activeTab === 'menu' ? '2.5px solid #8c5d77' : '2.5px solid transparent',
               fontWeight: 800,
               fontSize: '0.88rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '6px'
+              gap: '6px',
+              transition: 'all 0.15s ease'
             }}
           >
             <span>🍽️</span> Menu
@@ -345,25 +376,26 @@ export default function App() {
             onClick={() => setActiveTab('orders')}
             style={{
               flex: 1,
-              padding: '10px',
+              padding: '11px',
               textAlign: 'center',
-              backgroundColor: activeTab === 'orders' ? '#ffffff' : '#f8f9fa',
-              color: activeTab === 'orders' ? '#e23744' : '#696969',
+              backgroundColor: activeTab === 'orders' ? '#ffffff' : '#faf3f7',
+              color: activeTab === 'orders' ? '#8c5d77' : '#6e5e68',
               border: 'none',
-              borderBottom: activeTab === 'orders' ? '2.5px solid #e23744' : '2.5px solid transparent',
+              borderBottom: activeTab === 'orders' ? '2.5px solid #8c5d77' : '2.5px solid transparent',
               fontWeight: 800,
               fontSize: '0.88rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '6px'
+              gap: '6px',
+              transition: 'all 0.15s ease'
             }}
           >
             <span>📋</span> My Orders
             {placedOrders.length > 0 && (
               <span style={{
-                backgroundColor: '#e23744',
+                backgroundColor: '#8c5d77',
                 color: '#ffffff',
                 borderRadius: '50%',
                 width: '18px',
@@ -382,7 +414,7 @@ export default function App() {
       </header>
 
       {/* ========================================================
-          SCREEN 1: MENU (ZOMATO STYLE)
+          SCREEN 1: MENU
          ======================================================== */}
       {activeTab === 'menu' && (
         <main style={{ maxWidth: '640px', margin: '0 auto', padding: '12px 14px' }}>
@@ -392,7 +424,7 @@ export default function App() {
             position: 'sticky',
             top: '95px',
             zIndex: 40,
-            backgroundColor: '#f8f9fa',
+            backgroundColor: '#fcf9fb',
             padding: '6px 0 10px',
             display: 'flex',
             flexDirection: 'column',
@@ -404,11 +436,11 @@ export default function App() {
               alignItems: 'center',
               backgroundColor: '#ffffff',
               borderRadius: '12px',
-              border: '1px solid #e2e8f0',
+              border: '1px solid rgba(199, 163, 184, 0.4)',
               padding: '0 14px',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.03)'
+              boxShadow: '0 2px 6px rgba(140, 93, 119, 0.04)'
             }}>
-              <span style={{ fontSize: '1rem', color: '#94a3b8', marginRight: '8px' }}>🔍</span>
+              <span style={{ fontSize: '1rem', color: '#968690', marginRight: '8px' }}>🔍</span>
               <input
                 type="text"
                 placeholder="Search dishes (e.g. Biryani, Paneer, Roti)..."
@@ -420,7 +452,7 @@ export default function App() {
                   border: 'none',
                   outline: 'none',
                   backgroundColor: 'transparent',
-                  color: '#1c1c1c',
+                  color: '#21181f',
                   fontSize: '0.9rem'
                 }}
               />
@@ -428,7 +460,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1rem', padding: '4px' }}
+                  style={{ background: 'none', border: 'none', color: '#968690', cursor: 'pointer', fontSize: '1rem', padding: '4px' }}
                 >
                   ✕
                 </button>
@@ -444,31 +476,31 @@ export default function App() {
                   alignItems: 'center',
                   gap: '6px',
                   backgroundColor: vegOnly ? '#ecfdf5' : '#ffffff',
-                  border: vegOnly ? '1.5px solid #0f8a3c' : '1px solid #e2e8f0',
+                  border: vegOnly ? '1.5px solid #16a34a' : '1px solid rgba(199, 163, 184, 0.35)',
                   padding: '5px 12px',
                   borderRadius: '20px',
                   cursor: 'pointer',
                   userSelect: 'none',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+                  boxShadow: '0 1px 3px rgba(140, 93, 119, 0.04)'
                 }}
               >
                 <span style={{
                   width: '14px',
                   height: '14px',
-                  border: '1.5px solid #0f8a3c',
+                  border: '1.5px solid #16a34a',
                   borderRadius: '3px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#0f8a3c', display: 'block' }}></span>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#16a34a', display: 'block' }}></span>
                 </span>
-                <span style={{ fontSize: '0.8rem', fontWeight: 750, color: vegOnly ? '#0f8a3c' : '#475569' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 750, color: vegOnly ? '#16a34a' : '#6e5e68' }}>
                   Veg Only
                 </span>
               </div>
 
-              <div style={{ fontSize: '0.78rem', color: '#696969' }}>
+              <div style={{ fontSize: '0.78rem', color: '#6e5e68' }}>
                 {filteredDishes.length} dish{filteredDishes.length === 1 ? '' : 'es'} available
               </div>
             </div>
@@ -492,13 +524,14 @@ export default function App() {
                       whiteSpace: 'nowrap',
                       padding: '6px 14px',
                       borderRadius: '16px',
-                      border: isSelected ? '1px solid #e23744' : '1px solid #e2e8f0',
-                      backgroundColor: isSelected ? '#e23744' : '#ffffff',
-                      color: isSelected ? '#ffffff' : '#475569',
+                      border: isSelected ? '1px solid #8c5d77' : '1px solid rgba(199, 163, 184, 0.35)',
+                      backgroundColor: isSelected ? '#8c5d77' : '#ffffff',
+                      color: isSelected ? '#ffffff' : '#6e5e68',
                       fontWeight: 750,
                       fontSize: '0.8rem',
                       cursor: 'pointer',
-                      boxShadow: isSelected ? '0 3px 8px rgba(226, 55, 68, 0.25)' : 'none'
+                      boxShadow: isSelected ? '0 3px 8px rgba(140, 93, 119, 0.25)' : 'none',
+                      transition: 'all 0.15s ease'
                     }}
                   >
                     {cat}
@@ -516,11 +549,12 @@ export default function App() {
                 borderRadius: '16px',
                 padding: '40px 20px',
                 textAlign: 'center',
-                border: '1px solid #e8e8ed'
+                border: '1px solid rgba(199, 163, 184, 0.25)',
+                boxShadow: '0 2px 8px rgba(140, 93, 119, 0.04)'
               }}>
                 <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>🔍</div>
-                <h4 style={{ margin: '0 0 6px', color: '#1c1c1c', fontWeight: 800 }}>No dishes found</h4>
-                <p style={{ margin: 0, color: '#696969', fontSize: '0.85rem' }}>
+                <h4 style={{ margin: '0 0 6px', color: '#21181f', fontWeight: 800 }}>No dishes found</h4>
+                <p style={{ margin: 0, color: '#6e5e68', fontSize: '0.85rem' }}>
                   Try clearing your search or switching categories.
                 </p>
               </div>
@@ -539,8 +573,8 @@ export default function App() {
                       backgroundColor: '#ffffff',
                       borderRadius: '16px',
                       padding: '16px',
-                      border: '1px solid #e8e8ed',
-                      boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                      border: '1px solid rgba(199, 163, 184, 0.25)',
+                      boxShadow: '0 2px 8px rgba(140, 93, 119, 0.04)',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
@@ -554,7 +588,7 @@ export default function App() {
                         <span style={{
                           width: '15px',
                           height: '15px',
-                          border: `1.5px solid ${isVeg ? '#0f8a3c' : '#e23744'}`,
+                          border: `1.5px solid ${isVeg ? '#16a34a' : '#e11d48'}`,
                           borderRadius: '3px',
                           display: 'inline-flex',
                           alignItems: 'center',
@@ -562,12 +596,12 @@ export default function App() {
                           backgroundColor: '#ffffff'
                         }}>
                           {isVeg ? (
-                            <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#0f8a3c' }}></span>
+                            <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#16a34a' }}></span>
                           ) : (
-                            <span style={{ width: 0, height: 0, borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderBottom: '7px solid #e23744' }}></span>
+                            <span style={{ width: 0, height: 0, borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderBottom: '7px solid #e11d48' }}></span>
                           )}
                         </span>
-                        <span style={{ fontSize: '0.72rem', color: '#828282', fontWeight: 700, textTransform: 'uppercase' }}>
+                        <span style={{ fontSize: '0.72rem', color: '#968690', fontWeight: 700, textTransform: 'uppercase' }}>
                           {dish.category || 'Kitchen Special'}
                         </span>
                       </div>
@@ -576,7 +610,7 @@ export default function App() {
                       <h3 style={{
                         fontSize: '0.98rem',
                         fontWeight: 800,
-                        color: '#1c1c1c',
+                        color: '#21181f',
                         margin: '0 0 4px',
                         lineHeight: '1.3'
                       }}>
@@ -584,7 +618,7 @@ export default function App() {
                       </h3>
 
                       {/* Price in bold */}
-                      <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#1c1c1c' }}>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#21181f' }}>
                         ₹{priceNum}/-
                       </div>
 
@@ -600,17 +634,17 @@ export default function App() {
                             marginTop: '8px',
                             padding: '4px 8px',
                             borderRadius: '6px',
-                            border: '1px solid #e2e8f0',
+                            border: '1px solid rgba(199, 163, 184, 0.35)',
                             fontSize: '0.75rem',
-                            color: '#475569',
+                            color: '#6e5e68',
                             outline: 'none',
-                            backgroundColor: '#f8fafc'
+                            backgroundColor: '#fef4f8'
                           }}
                         />
                       )}
                     </div>
 
-                    {/* Right Action: Zomato Style ADD Button or Stepper */}
+                    {/* Right Action: Brand ADD Button or Stepper */}
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '90px' }}>
                       {qty === 0 ? (
                         <button
@@ -618,15 +652,16 @@ export default function App() {
                           onClick={() => handleAddToCart(dish)}
                           style={{
                             backgroundColor: '#ffffff',
-                            color: '#e23744',
-                            border: '1.5px solid #e23744',
+                            color: '#8c5d77',
+                            border: '1.5px solid #8c5d77',
                             borderRadius: '8px',
                             padding: '7px 22px',
                             fontWeight: 900,
                             fontSize: '0.9rem',
                             cursor: 'pointer',
-                            boxShadow: '0 2px 6px rgba(226, 55, 68, 0.12)',
-                            textTransform: 'uppercase'
+                            boxShadow: '0 2px 6px rgba(140, 93, 119, 0.12)',
+                            textTransform: 'uppercase',
+                            transition: 'all 0.15s ease'
                           }}
                         >
                           + ADD
@@ -635,11 +670,11 @@ export default function App() {
                         <div style={{
                           display: 'flex',
                           alignItems: 'center',
-                          backgroundColor: '#e23744',
+                          backgroundColor: '#8c5d77',
                           borderRadius: '8px',
                           color: '#ffffff',
                           overflow: 'hidden',
-                          boxShadow: '0 3px 8px rgba(226, 55, 68, 0.35)'
+                          boxShadow: '0 3px 8px rgba(140, 93, 119, 0.35)'
                         }}>
                           <button
                             type="button"
@@ -686,16 +721,16 @@ export default function App() {
       )}
 
       {/* ========================================================
-          SCREEN 2: MY ORDERS (ZOMATO STYLE ORDER HISTORY)
+          SCREEN 2: MY ORDERS (ROOM ORDER HISTORY)
          ======================================================== */}
       {activeTab === 'orders' && (
         <main style={{ maxWidth: '640px', margin: '0 auto', padding: '16px 14px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <div>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#1c1c1c', margin: 0 }}>
+              <h2 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#21181f', margin: 0 }}>
                 My Room Orders
               </h2>
-              <p style={{ fontSize: '0.8rem', color: '#696969', margin: '2px 0 0' }}>
+              <p style={{ fontSize: '0.8rem', color: '#6e5e68', margin: '2px 0 0' }}>
                 Delivered directly to Room {selectedRoom}
               </p>
             </div>
@@ -703,9 +738,9 @@ export default function App() {
               type="button"
               onClick={() => setActiveTab('menu')}
               style={{
-                backgroundColor: '#fef2f2',
-                color: '#e23744',
-                border: '1px solid #fecdd3',
+                backgroundColor: '#fef4f8',
+                color: '#8c5d77',
+                border: '1px solid rgba(199, 163, 184, 0.45)',
                 padding: '6px 14px',
                 borderRadius: '20px',
                 fontSize: '0.82rem',
@@ -723,18 +758,19 @@ export default function App() {
               borderRadius: '16px',
               padding: '40px 20px',
               textAlign: 'center',
-              border: '1px solid #e8e8ed'
+              border: '1px solid rgba(199, 163, 184, 0.25)',
+              boxShadow: '0 2px 8px rgba(140, 93, 119, 0.04)'
             }}>
               <div style={{ fontSize: '3rem', marginBottom: '12px' }}>🛎️</div>
-              <h3 style={{ margin: '0 0 6px', color: '#1c1c1c', fontWeight: 800 }}>No Orders Placed Yet</h3>
-              <p style={{ margin: '0 0 20px', color: '#696969', fontSize: '0.85rem' }}>
+              <h3 style={{ margin: '0 0 6px', color: '#21181f', fontWeight: 800 }}>No Orders Placed Yet</h3>
+              <p style={{ margin: '0 0 20px', color: '#6e5e68', fontSize: '0.85rem' }}>
                 Browse our delicious menu and order food directly to your room!
               </p>
               <button
                 type="button"
                 onClick={() => setActiveTab('menu')}
                 style={{
-                  backgroundColor: '#e23744',
+                  backgroundColor: '#8c5d77',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '12px',
@@ -742,7 +778,7 @@ export default function App() {
                   fontWeight: 800,
                   fontSize: '0.9rem',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(226, 55, 68, 0.3)'
+                  boxShadow: '0 4px 12px rgba(140, 93, 119, 0.3)'
                 }}
               >
                 Explore Menu 🍽️
@@ -760,20 +796,20 @@ export default function App() {
                       backgroundColor: '#ffffff',
                       borderRadius: '16px',
                       padding: '16px',
-                      border: '1px solid #e8e8ed',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                      border: '1px solid rgba(199, 163, 184, 0.25)',
+                      boxShadow: '0 2px 8px rgba(140, 93, 119, 0.04)'
                     }}
                   >
                     {/* Order Card Header */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid #f1f1f5', paddingBottom: '10px', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid rgba(199, 163, 184, 0.2)', paddingBottom: '10px', marginBottom: '12px' }}>
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#1c1c1c' }}>
+                          <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#21181f' }}>
                             {ord.orderNumber}
                           </span>
                           <span style={{
                             backgroundColor: '#ecfdf5',
-                            color: '#0f8a3c',
+                            color: '#16a34a',
                             fontSize: '0.72rem',
                             fontWeight: 800,
                             padding: '2px 8px',
@@ -782,16 +818,16 @@ export default function App() {
                             ● Sent to Kitchen
                           </span>
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: '#696969', marginTop: '2px' }}>
+                        <div style={{ fontSize: '0.78rem', color: '#6e5e68', marginTop: '2px' }}>
                           📅 {ord.placedDate || 'Today'} • ⏰ {ord.placedAt || 'Just Now'}
                         </div>
                       </div>
 
                       <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontSize: '1.05rem', fontWeight: 900, color: '#e23744' }}>
-                          {totalRounded}/-
+                        <div style={{ fontSize: '1.05rem', fontWeight: 900, color: '#8c5d77' }}>
+                          ₹{totalRounded}/-
                         </div>
-                        <div style={{ fontSize: '0.7rem', color: '#828282' }}>
+                        <div style={{ fontSize: '0.7rem', color: '#968690' }}>
                           Incl. 5% GST
                         </div>
                       </div>
@@ -801,10 +837,10 @@ export default function App() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' }}>
                       {(ord.items || []).map((it, i) => (
                         <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
-                          <span style={{ color: '#1c1c1c', fontWeight: 600 }}>
+                          <span style={{ color: '#21181f', fontWeight: 600 }}>
                             {it.quantity}x {it.name}
                           </span>
-                          <span style={{ color: '#696969', fontWeight: 700 }}>
+                          <span style={{ color: '#6e5e68', fontWeight: 700 }}>
                             ₹{it.total || (it.price * it.quantity)}/-
                           </span>
                         </div>
@@ -812,14 +848,14 @@ export default function App() {
                     </div>
 
                     {ord.notes && (
-                      <div style={{ backgroundColor: '#fffbeb', padding: '6px 10px', borderRadius: '6px', fontSize: '0.78rem', color: '#b45309', marginBottom: '10px' }}>
+                      <div style={{ backgroundColor: '#fef4f8', padding: '6px 10px', borderRadius: '6px', fontSize: '0.78rem', color: '#8c5d77', marginBottom: '10px', border: '1px solid rgba(199, 163, 184, 0.3)' }}>
                         📝 Note: {ord.notes}
                       </div>
                     )}
 
                     {/* Bottom Status & Re-order */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px dashed #e8e8ed', paddingTop: '10px' }}>
-                      <span style={{ fontSize: '0.78rem', color: '#0f8a3c', fontWeight: 700 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px dashed rgba(199, 163, 184, 0.3)', paddingTop: '10px' }}>
+                      <span style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: 700 }}>
                         ✓ Billed to Room {selectedRoom} checkout folio
                       </span>
                       <button
@@ -827,8 +863,8 @@ export default function App() {
                         onClick={() => setActiveTab('menu')}
                         style={{
                           backgroundColor: '#ffffff',
-                          color: '#e23744',
-                          border: '1px solid #e23744',
+                          color: '#8c5d77',
+                          border: '1px solid #8c5d77',
                           borderRadius: '8px',
                           padding: '4px 12px',
                           fontSize: '0.78rem',
@@ -848,7 +884,7 @@ export default function App() {
       )}
 
       {/* ========================================================
-          3. FLOATING CART PILL (ZOMATO SIGNATURE)
+          3. FLOATING CART PILL
          ======================================================== */}
       {totalCount > 0 && activeTab === 'menu' && (
         <div style={{
@@ -867,11 +903,11 @@ export default function App() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              backgroundColor: '#e23744',
+              background: 'linear-gradient(135deg, #8c5d77 0%, #73465f 100%)',
               borderRadius: '16px',
               padding: '14px 20px',
               color: '#ffffff',
-              boxShadow: '0 8px 24px rgba(226, 55, 68, 0.45)',
+              boxShadow: '0 8px 24px rgba(140, 93, 119, 0.45)',
               cursor: 'pointer',
               userSelect: 'none'
             }}
@@ -881,7 +917,7 @@ export default function App() {
                 {totalCount} ITEM{totalCount === 1 ? '' : 'S'} ADDED
               </div>
               <div style={{ fontSize: '1.15rem', fontWeight: 900 }}>
-                {cartRoundedTotal}/- <span style={{ fontSize: '0.75rem', fontWeight: 600, opacity: 0.85 }}>(Incl. GST)</span>
+                ₹{cartRoundedTotal}/- <span style={{ fontSize: '0.75rem', fontWeight: 600, opacity: 0.85 }}>(Incl. GST)</span>
               </div>
             </div>
 
@@ -890,7 +926,7 @@ export default function App() {
               alignItems: 'center',
               gap: '6px',
               backgroundColor: '#ffffff',
-              color: '#e23744',
+              color: '#8c5d77',
               padding: '8px 16px',
               borderRadius: '10px',
               fontWeight: 900,
@@ -904,7 +940,7 @@ export default function App() {
       )}
 
       {/* ========================================================
-          4. ZOMATO CART REVIEW DRAWER
+          4. CART REVIEW DRAWER
          ======================================================== */}
       {showCartDrawer && (
         <div style={{
@@ -936,15 +972,15 @@ export default function App() {
             }}
           >
             {/* Drawer Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid #f1f1f5', paddingBottom: '12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid rgba(199, 163, 184, 0.25)', paddingBottom: '12px' }}>
               <div>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 900, color: '#1c1c1c', margin: 0 }}>Review Your Order</h3>
-                <p style={{ fontSize: '0.8rem', color: '#696969', margin: '2px 0 0' }}>Delivering to Room {selectedRoom}</p>
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 900, color: '#21181f', margin: 0 }}>Review Your Order</h3>
+                <p style={{ fontSize: '0.8rem', color: '#6e5e68', margin: '2px 0 0' }}>Delivering to Room {selectedRoom}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setShowCartDrawer(false)}
-                style={{ background: '#f1f1f5', border: 'none', color: '#1c1c1c', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontWeight: 800, fontSize: '1rem' }}
+                style={{ background: '#faf3f7', border: '1px solid rgba(199, 163, 184, 0.35)', color: '#21181f', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontWeight: 800, fontSize: '1rem' }}
               >
                 ✕
               </button>
@@ -953,14 +989,14 @@ export default function App() {
             {/* Items List */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
               {cartItems.map(it => (
-                <div key={it.dish.id} style={{ padding: '12px', backgroundColor: '#f8f9fa', borderRadius: '12px', border: '1px solid #e8e8ed' }}>
+                <div key={it.dish.id} style={{ padding: '12px', backgroundColor: '#fcf9fb', borderRadius: '12px', border: '1px solid rgba(199, 163, 184, 0.25)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                     <div>
-                      <div style={{ fontWeight: 800, color: '#1c1c1c', fontSize: '0.92rem' }}>{it.dish.name}</div>
-                      <div style={{ fontSize: '0.82rem', color: '#e23744', fontWeight: 800 }}>₹{it.dish.price}/- each</div>
+                      <div style={{ fontWeight: 800, color: '#21181f', fontSize: '0.92rem' }}>{it.dish.name}</div>
+                      <div style={{ fontSize: '0.82rem', color: '#8c5d77', fontWeight: 800 }}>₹{it.dish.price}/- each</div>
                     </div>
                     {/* Stepper */}
-                    <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#e23744', borderRadius: '6px', color: '#ffffff' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#8c5d77', borderRadius: '6px', color: '#ffffff' }}>
                       <button
                         type="button"
                         onClick={() => handleUpdateQuantity(it.dish.id, -1)}
@@ -989,9 +1025,9 @@ export default function App() {
                       width: '100%',
                       padding: '6px 10px',
                       backgroundColor: '#ffffff',
-                      border: '1px solid #e2e8f0',
+                      border: '1px solid rgba(199, 163, 184, 0.35)',
                       borderRadius: '6px',
-                      color: '#475569',
+                      color: '#6e5e68',
                       fontSize: '0.78rem',
                       outline: 'none'
                     }}
@@ -1002,7 +1038,7 @@ export default function App() {
 
             {/* General Order Notes */}
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 750, color: '#475569', marginBottom: '4px' }}>
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 750, color: '#6e5e68', marginBottom: '4px' }}>
                 Delivery Instructions (Optional)
               </label>
               <textarea
@@ -1013,10 +1049,10 @@ export default function App() {
                 style={{
                   width: '100%',
                   padding: '10px',
-                  backgroundColor: '#f8f9fa',
-                  border: '1px solid #e2e8f0',
+                  backgroundColor: '#fcf9fb',
+                  border: '1px solid rgba(199, 163, 184, 0.35)',
                   borderRadius: '10px',
-                  color: '#1c1c1c',
+                  color: '#21181f',
                   fontSize: '0.85rem',
                   outline: 'none',
                   resize: 'none'
@@ -1025,20 +1061,20 @@ export default function App() {
             </div>
 
             {/* Bill Details */}
-            <div style={{ backgroundColor: '#f8f9fa', borderRadius: '12px', padding: '14px', marginBottom: '18px', border: '1px solid #e8e8ed' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#696969', marginBottom: '6px' }}>
+            <div style={{ backgroundColor: '#fcf9fb', borderRadius: '12px', padding: '14px', marginBottom: '18px', border: '1px solid rgba(199, 163, 184, 0.25)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#6e5e68', marginBottom: '6px' }}>
                 <span>Item Total</span>
                 <span>₹{Math.round(cartSubtotal)}/-</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#696969', marginBottom: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#6e5e68', marginBottom: '8px' }}>
                 <span>GST (5%)</span>
                 <span>+ ₹{Math.round(cartGst)}/-</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 900, color: '#1c1c1c', borderTop: '1px dashed #cbd5e1', paddingTop: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 900, color: '#21181f', borderTop: '1px dashed rgba(199, 163, 184, 0.4)', paddingTop: '8px' }}>
                 <span>Grand Total</span>
-                <span style={{ color: '#e23744' }}>{cartRoundedTotal}/-</span>
+                <span style={{ color: '#8c5d77' }}>₹{cartRoundedTotal}/-</span>
               </div>
-              <div style={{ fontSize: '0.76rem', color: '#0f8a3c', marginTop: '6px', fontWeight: 700 }}>
+              <div style={{ fontSize: '0.76rem', color: '#16a34a', marginTop: '6px', fontWeight: 700 }}>
                 ✓ No payment required now: Billed to your room stay checkout folio
               </div>
             </div>
@@ -1051,7 +1087,7 @@ export default function App() {
               style={{
                 width: '100%',
                 padding: '14px',
-                backgroundColor: isSubmitting ? '#991b1b' : '#e23744',
+                background: isSubmitting ? '#5f3a4e' : 'linear-gradient(135deg, #8c5d77 0%, #73465f 100%)',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '14px',
@@ -1062,7 +1098,7 @@ export default function App() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 4px 16px rgba(226, 55, 68, 0.4)'
+                boxShadow: '0 4px 16px rgba(140, 93, 119, 0.4)'
               }}
             >
               {isSubmitting ? 'Transmitting to Kitchen...' : 'SEND ORDER TO KITCHEN 🛎️'}
@@ -1095,8 +1131,8 @@ export default function App() {
           <div
             className="animate-fade"
             style={{
-              backgroundColor: '#1e293b',
-              border: '1px solid #334155',
+              backgroundColor: '#21181f',
+              border: '1px solid rgba(199, 163, 184, 0.35)',
               borderRadius: '20px',
               padding: '24px 20px',
               maxWidth: '380px',
@@ -1122,34 +1158,34 @@ export default function App() {
               ✓
             </div>
 
-            <h3 style={{ fontSize: '1.35rem', fontWeight: 900, color: '#f8fafc', margin: '0 0 6px' }}>
+            <h3 style={{ fontSize: '1.35rem', fontWeight: 900, color: '#fcf9fb', margin: '0 0 6px' }}>
               Order Received!
             </h3>
-            <p style={{ fontSize: '0.85rem', color: '#94a3b8', margin: '0 0 16px', lineHeight: '1.4' }}>
+            <p style={{ fontSize: '0.85rem', color: '#c7a3b8', margin: '0 0 16px', lineHeight: '1.4' }}>
               Your order has been transmitted directly to our kitchen staff.
             </p>
 
             {/* Order Details Card */}
             <div style={{
-              backgroundColor: '#0f172a',
+              backgroundColor: '#160e15',
               borderRadius: '14px',
               padding: '14px 16px',
               marginBottom: '20px',
               textAlign: 'left',
-              border: '1px solid #334155'
+              border: '1px solid rgba(199, 163, 184, 0.25)'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Order Token:</span>
-                <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#38bdf8' }}>{lastOrder.orderNumber}</span>
+                <span style={{ fontSize: '0.82rem', color: '#c7a3b8' }}>Order Token:</span>
+                <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#fbd3e4' }}>{lastOrder.orderNumber}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Delivery To:</span>
+                <span style={{ fontSize: '0.82rem', color: '#c7a3b8' }}>Delivery To:</span>
                 <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#ffffff' }}>Room {selectedRoom}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Total Amount:</span>
+                <span style={{ fontSize: '0.82rem', color: '#c7a3b8' }}>Total Amount:</span>
                 <span style={{ fontSize: '1.05rem', fontWeight: 900, color: '#fbbf24' }}>
-                  {Math.round(lastOrder.grandTotal || lastOrder.subtotal || 0)}/-
+                  ₹{Math.round(lastOrder.grandTotal || lastOrder.subtotal || 0)}/-
                 </span>
               </div>
             </div>
@@ -1162,8 +1198,8 @@ export default function App() {
                 style={{
                   flex: 1,
                   padding: '12px',
-                  backgroundColor: '#334155',
-                  color: '#f8fafc',
+                  backgroundColor: '#3d2d3a',
+                  color: '#fcf9fb',
                   border: 'none',
                   borderRadius: '12px',
                   fontWeight: 800,
@@ -1183,14 +1219,14 @@ export default function App() {
                 style={{
                   flex: 1,
                   padding: '12px',
-                  backgroundColor: '#e23744',
+                  background: 'linear-gradient(135deg, #8c5d77 0%, #73465f 100%)',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '12px',
                   fontWeight: 800,
                   fontSize: '0.9rem',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(226, 55, 68, 0.4)'
+                  boxShadow: '0 4px 12px rgba(140, 93, 119, 0.4)'
                 }}
               >
                 More Order 🍽️

@@ -1,15 +1,16 @@
 :root {
-  --zomato-red: #e23744;
-  --zomato-red-dark: #cb202d;
-  --zomato-red-light: #fef2f2;
-  --zomato-bg: #f8f9fa;
-  --zomato-card-bg: #ffffff;
-  --zomato-border: #e8e8ed;
-  --zomato-text-main: #1c1c1c;
-  --zomato-text-muted: #696969;
-  --zomato-text-sub: #828282;
-  --veg-color: #0f8a3c;
-  --nonveg-color: #e23744;
+  --theme-primary: #8c5d77;
+  --theme-primary-hover: #73465f;
+  --theme-primary-light: #fef4f8;
+  --theme-primary-subtle: rgba(251, 211, 228, 0.45);
+  --theme-border: rgba(199, 163, 184, 0.35);
+  --theme-bg: #fcf9fb;
+  --theme-card-bg: #ffffff;
+  --theme-text-main: #21181f;
+  --theme-text-muted: #6e5e68;
+  --theme-text-sub: #968690;
+  --veg-color: #16a34a;
+  --nonveg-color: #e11d48;
 }
 
 * {
@@ -65,8 +66,8 @@ body {
 }
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 4px 16px rgba(226, 55, 68, 0.35); }
-  50% { box-shadow: 0 8px 24px rgba(226, 55, 68, 0.6); }
+  0%, 100% { box-shadow: 0 4px 16px rgba(140, 93, 119, 0.35); }
+  50% { box-shadow: 0 8px 24px rgba(140, 93, 119, 0.6); }
 }
 
 .animate-fade {
