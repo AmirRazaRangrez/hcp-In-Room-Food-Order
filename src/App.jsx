@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { getLiveDiningSession, submitRoomOrder, checkOrderStatus } from './firebase';
 
 /**
@@ -99,6 +99,7 @@ export default function App() {
 
   // Terms agreement checkbox gate (Must be checked before placing order)
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const scrollContainerRef = useRef(null);
 
   // Submission & Post-order confirmation state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -1291,16 +1292,21 @@ export default function App() {
       {showCartDrawer && (
         <div style={{
           position: 'fixed',
-          inset: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: '100dvh',
+          maxHeight: '100%',
+          width: '100%',
+          maxWidth: '640px',
+          margin: '0 auto',
           backgroundColor: '#ffffff',
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
-          height: '100vh',
-          width: '100%',
-          maxWidth: '640px',
-          margin: '0 auto',
-          boxShadow: '0 0 40px rgba(0, 0, 0, 0.15)'
+          boxShadow: '0 0 40px rgba(0, 0, 0, 0.15)',
+          overflow: 'hidden'
         }}>
           {/* Header */}
           <div style={{
@@ -1339,7 +1345,16 @@ export default function App() {
           </div>
 
           {/* Scrollable Body: Items Table, Bill Details & Terms */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
+          <div
+            ref={scrollContainerRef}
+            style={{
+              flex: '1 1 auto',
+              minHeight: 0,
+              overflowY: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              padding: '16px 16px 28px'
+            }}
+          >
             {/* Items Table */}
             <div style={{
               borderRadius: '12px',
@@ -1504,13 +1519,25 @@ export default function App() {
                 <input
                   type="checkbox"
                   checked={agreedToTerms}
-                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  onChange={(e) => {
+                    const isChecked = e.target.checked;
+                    setAgreedToTerms(isChecked);
+                    if (isChecked && scrollContainerRef.current) {
+                      setTimeout(() => {
+                        scrollContainerRef.current?.scrollTo({
+                          top: scrollContainerRef.current.scrollHeight,
+                          behavior: 'smooth'
+                        });
+                      }, 50);
+                    }
+                  }}
                   style={{
-                    width: '18px',
-                    height: '18px',
+                    width: '20px',
+                    height: '20px',
                     marginTop: '2px',
                     accentColor: '#8c5d77',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    flexShrink: 0
                   }}
                 />
                 <div style={{ fontSize: '0.82rem', color: '#0f172a', lineHeight: '1.4' }}>
@@ -1525,10 +1552,13 @@ export default function App() {
 
           {/* Fixed Footer with "Place Order" Button */}
           <div style={{
-            padding: '14px 16px',
+            padding: '12px 16px',
+            paddingBottom: 'calc(14px + env(safe-area-inset-bottom, 0px))',
             borderTop: '1px solid #e2e8f0',
             backgroundColor: '#ffffff',
-            flexShrink: 0
+            boxShadow: '0 -4px 16px rgba(0, 0, 0, 0.05)',
+            flexShrink: 0,
+            zIndex: 10
           }}>
             <button
               type="button"
