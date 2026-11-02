@@ -89,6 +89,7 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [vegOnly, setVegOnly] = useState(false);
+  const [nonVegOnly, setNonVegOnly] = useState(false);
 
   // Cart: { [dishId]: { dish, quantity, notes } }
   const [cart, setCart] = useState({});
@@ -189,7 +190,10 @@ export default function App() {
       if (activeCategory !== 'ALL' && (dish.category || '').toLowerCase() !== activeCategory.toLowerCase()) {
         return false;
       }
-      if (vegOnly && dish.is_veg === 0) {
+      if (vegOnly && (dish.is_veg === 0 || dish.is_veg === false)) {
+        return false;
+      }
+      if (nonVegOnly && (dish.is_veg === 1 || dish.is_veg === true)) {
         return false;
       }
       if (searchQuery.trim()) {
@@ -200,7 +204,7 @@ export default function App() {
       }
       return true;
     });
-  }, [session?.menu, activeCategory, vegOnly, searchQuery]);
+  }, [session?.menu, activeCategory, vegOnly, nonVegOnly, searchQuery]);
 
   // Cart operations
   const handleAddToCart = (dish) => {
@@ -725,40 +729,85 @@ export default function App() {
               )}
             </div>
 
-            {/* Quick Filter: Veg Only Toggle */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div
-                onClick={() => setVegOnly(!vegOnly)}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  backgroundColor: vegOnly ? '#ecfdf5' : '#ffffff',
-                  border: vegOnly ? '1.5px solid #16a34a' : '1px solid #e2e8f0',
-                  padding: '5px 12px',
-                  borderRadius: '20px',
-                  cursor: 'pointer',
-                  userSelect: 'none',
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)'
-                }}
-              >
-                <span style={{
-                  width: '14px',
-                  height: '14px',
-                  border: '1.5px solid #16a34a',
-                  borderRadius: '3px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#16a34a', display: 'block' }}></span>
-                </span>
-                <span style={{ fontSize: '0.8rem', fontWeight: 750, color: vegOnly ? '#16a34a' : '#64748b' }}>
-                  Veg Only
-                </span>
+            {/* Quick Filters: Veg Only & Non-Veg Only */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {/* Veg Only */}
+                <div
+                  onClick={() => {
+                    setVegOnly(!vegOnly);
+                    if (!vegOnly) setNonVegOnly(false);
+                  }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    backgroundColor: vegOnly ? '#ecfdf5' : '#ffffff',
+                    border: vegOnly ? '1.5px solid #16a34a' : '1px solid #e2e8f0',
+                    padding: '5px 12px',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <span style={{
+                    width: '14px',
+                    height: '14px',
+                    border: '1.5px solid #16a34a',
+                    borderRadius: '3px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#ffffff'
+                  }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#16a34a', display: 'block' }}></span>
+                  </span>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 750, color: vegOnly ? '#16a34a' : '#64748b' }}>
+                    Veg Only
+                  </span>
+                </div>
+
+                {/* Non-Veg Only */}
+                <div
+                  onClick={() => {
+                    setNonVegOnly(!nonVegOnly);
+                    if (!nonVegOnly) setVegOnly(false);
+                  }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    backgroundColor: nonVegOnly ? '#fff1f2' : '#ffffff',
+                    border: nonVegOnly ? '1.5px solid #e11d48' : '1px solid #e2e8f0',
+                    padding: '5px 12px',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <span style={{
+                    width: '14px',
+                    height: '14px',
+                    border: '1.5px solid #e11d48',
+                    borderRadius: '3px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#ffffff'
+                  }}>
+                    <span style={{ width: 0, height: 0, borderLeft: '3.5px solid transparent', borderRight: '3.5px solid transparent', borderBottom: '6px solid #e11d48' }}></span>
+                  </span>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 750, color: nonVegOnly ? '#e11d48' : '#64748b' }}>
+                    Non-Veg Only
+                  </span>
+                </div>
               </div>
 
-              <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
+              <div style={{ fontSize: '0.78rem', color: '#64748b', whiteSpace: 'nowrap' }}>
                 {filteredDishes.length} dish{filteredDishes.length === 1 ? '' : 'es'} available
               </div>
             </div>
@@ -1040,7 +1089,9 @@ export default function App() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {placedOrders.map((ord, idx) => {
                 const totalRounded = Math.round(ord.grandTotal || ord.subtotal || 0);
-                const prepTime = ord.estimatedPrep || getEstimatedPrepTime(totalRounded);
+                const subtotalRounded = Math.round(ord.subtotal || (ord.items || []).reduce((sum, it) => sum + (it.total || (it.price * it.quantity)), 0));
+                const gstRounded = ord.gst !== undefined ? Math.round(ord.gst) : Math.round(subtotalRounded * 0.05);
+
                 return (
                   <div
                     key={ord.orderNumber || idx}
@@ -1085,45 +1136,72 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* Prep Time Badge */}
+                    {/* Items Table Structure */}
                     <div style={{
-                      backgroundColor: '#f8fafc',
                       borderRadius: '10px',
-                      padding: '8px 12px',
-                      marginBottom: '12px',
                       border: '1px solid #e2e8f0',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      fontSize: '0.8rem'
+                      overflow: 'hidden',
+                      marginBottom: '12px',
+                      backgroundColor: '#ffffff'
                     }}>
-                      <span style={{ color: '#475569', fontWeight: 700 }}>⏱️ Est. Preparation Time:</span>
-                      <span style={{ color: '#8c5d77', fontWeight: 900 }}>~{prepTime}</span>
-                    </div>
-
-                    {/* Items List */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' }}>
-                      {(ord.items || []).map((it, i) => (
-                        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
-                          <span style={{ color: '#0f172a', fontWeight: 600 }}>
-                            {it.quantity}x {it.name}
-                          </span>
-                          <span style={{ color: '#64748b', fontWeight: 700 }}>
-                            ₹{it.total || (it.price * it.quantity)}/-
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {ord.notes && (
-                      <div style={{ backgroundColor: '#fdf2f8', padding: '6px 10px', borderRadius: '6px', fontSize: '0.78rem', color: '#8c5d77', marginBottom: '10px', border: '1px solid #fbd3e4' }}>
-                        📝 Note: {ord.notes}
-                      </div>
-                    )}
-
-                    {/* Non-cancellation Notice */}
-                    <div style={{ fontSize: '0.74rem', color: '#64748b', fontStyle: 'italic', marginBottom: '10px' }}>
-                      🔒 Kitchen has started fresh food preparation. Online cancellation is unavailable. Please dial Front Desk from intercom for changes.
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
+                        <thead>
+                          <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#64748b' }}>
+                            <th style={{ textAlign: 'left', padding: '8px 10px', fontWeight: 800, fontSize: '0.75rem' }}>Item</th>
+                            <th style={{ textAlign: 'center', padding: '8px 8px', fontWeight: 800, fontSize: '0.75rem' }}>Rate</th>
+                            <th style={{ textAlign: 'center', padding: '8px 8px', fontWeight: 800, fontSize: '0.75rem' }}>Qty</th>
+                            <th style={{ textAlign: 'right', padding: '8px 10px', fontWeight: 800, fontSize: '0.75rem' }}>Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {(ord.items || []).map((it, i) => {
+                            const itemPrice = Math.round(parseFloat(it.price || 0));
+                            const itemQty = it.quantity || 1;
+                            const itemLineTotal = Math.round(parseFloat(it.total || (itemPrice * itemQty)));
+                            return (
+                              <tr key={i} style={{ borderBottom: i < (ord.items || []).length - 1 ? '1px solid #f1f5f9' : 'none' }}>
+                                <td style={{ padding: '8px 10px', verticalAlign: 'top' }}>
+                                  <div style={{ fontWeight: 750, color: '#0f172a' }}>{it.name}</div>
+                                  {it.notes ? (
+                                    <div style={{ fontSize: '0.72rem', color: '#8c5d77', fontStyle: 'italic', marginTop: '2px' }}>
+                                      Note: {it.notes}
+                                    </div>
+                                  ) : null}
+                                </td>
+                                <td style={{ textAlign: 'center', padding: '8px 8px', color: '#64748b', fontWeight: 600, verticalAlign: 'top', whiteSpace: 'nowrap' }}>
+                                  ₹{itemPrice}
+                                </td>
+                                <td style={{ textAlign: 'center', padding: '8px 8px', fontWeight: 800, color: '#0f172a', verticalAlign: 'top' }}>
+                                  {itemQty}
+                                </td>
+                                <td style={{ textAlign: 'right', padding: '8px 10px', fontWeight: 800, color: '#0f172a', verticalAlign: 'top', whiteSpace: 'nowrap' }}>
+                                  ₹{itemLineTotal}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                        <tfoot>
+                          <tr style={{ borderTop: '1px solid #e2e8f0', backgroundColor: '#fcfcfd' }}>
+                            <td colSpan={3} style={{ padding: '6px 10px', color: '#64748b', fontSize: '0.78rem' }}>Sub-total</td>
+                            <td style={{ padding: '6px 10px', textAlign: 'right', fontWeight: 700, color: '#0f172a', fontSize: '0.8rem' }}>
+                              ₹{subtotalRounded}/-
+                            </td>
+                          </tr>
+                          <tr style={{ backgroundColor: '#fcfcfd' }}>
+                            <td colSpan={3} style={{ padding: '4px 10px', color: '#64748b', fontSize: '0.78rem' }}>GST (5%)</td>
+                            <td style={{ padding: '4px 10px', textAlign: 'right', fontWeight: 700, color: '#0f172a', fontSize: '0.8rem' }}>
+                              + ₹{gstRounded}/-
+                            </td>
+                          </tr>
+                          <tr style={{ borderTop: '1px dashed #cbd5e1', backgroundColor: '#fdf2f8' }}>
+                            <td colSpan={3} style={{ padding: '8px 10px', fontWeight: 900, color: '#8c5d77', fontSize: '0.85rem' }}>Total</td>
+                            <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 900, color: '#8c5d77', fontSize: '0.92rem' }}>
+                              ₹{totalRounded}/-
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
                     </div>
 
                     {/* Bottom Status & Add More */}
@@ -1184,7 +1262,7 @@ export default function App() {
           >
             <div>
               <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', fontWeight: 800, opacity: 0.9 }}>
-                {totalCount} ITEM{totalCount === 1 ? '' : 'S'} • PREP: ~{currentEstimatedPrep}
+                {totalCount} ITEM{totalCount === 1 ? '' : 'S'}
               </div>
               <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>
                 ₹{cartRoundedTotal}/- <span style={{ fontSize: '0.72rem', fontWeight: 600, opacity: 0.85 }}>(Incl. GST)</span>
@@ -1209,157 +1287,203 @@ export default function App() {
         </div>
       )}
 
-      {/* 3. CART & CHECKOUT REVIEW DRAWER */}
+      {/* 3. CART & CHECKOUT REVIEW MODAL (FULL SCREEN & CLEAN TABLE) */}
       {showCartDrawer && (
         <div style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(15, 23, 42, 0.65)',
+          inset: 0,
+          backgroundColor: '#ffffff',
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
-          backdropFilter: 'blur(4px)'
+          height: '100vh',
+          width: '100%',
+          maxWidth: '640px',
+          margin: '0 auto',
+          boxShadow: '0 0 40px rgba(0, 0, 0, 0.15)'
         }}>
-          <div
-            style={{
-              backgroundColor: '#ffffff',
-              borderTopLeftRadius: '24px',
-              borderTopRightRadius: '24px',
-              padding: '20px 18px 28px',
-              maxHeight: '85vh',
-              overflowY: 'auto',
-              maxWidth: '640px',
-              width: '100%',
-              margin: '0 auto',
-              boxShadow: '0 -10px 30px rgba(0,0,0,0.2)'
-            }}
-          >
-            {/* Drawer Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
-              <div>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 900, color: '#0f172a', margin: 0 }}>Review Your Order</h3>
-                <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '2px 0 0' }}>Delivering to Room {selectedRoom}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowCartDrawer(false)}
-                style={{ background: '#f8fafc', border: '1px solid #e2e8f0', color: '#0f172a', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontWeight: 800, fontSize: '1rem' }}
-              >
-                ✕
-              </button>
+          {/* Header */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '16px 18px',
+            borderBottom: '1px solid #e2e8f0',
+            backgroundColor: '#ffffff',
+            flexShrink: 0
+          }}>
+            <div>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#0f172a', margin: 0 }}>Review Your Order</h3>
+              <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '2px 0 0' }}>Delivering to Room {selectedRoom}</p>
             </div>
+            <button
+              type="button"
+              onClick={() => setShowCartDrawer(false)}
+              style={{
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                color: '#0f172a',
+                width: '34px',
+                height: '34px',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                fontWeight: 800,
+                fontSize: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              ✕
+            </button>
+          </div>
 
-            {/* Items List */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
-              {cartItems.map(it => (
-                <div key={it.dish.id} style={{ padding: '12px', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                    <div>
-                      <div style={{ fontWeight: 800, color: '#0f172a', fontSize: '0.92rem' }}>{it.dish.name}</div>
-                      <div style={{ fontSize: '0.82rem', color: '#8c5d77', fontWeight: 800 }}>₹{it.dish.price}/- each</div>
-                    </div>
-                    {/* Stepper */}
-                    <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#8c5d77', borderRadius: '6px', color: '#ffffff' }}>
-                      <button
-                        type="button"
-                        onClick={() => handleUpdateQuantity(it.dish.id, -1)}
-                        style={{ width: '28px', height: '28px', background: 'transparent', color: '#ffffff', border: 'none', cursor: 'pointer', fontWeight: 900 }}
-                      >
-                        −
-                      </button>
-                      <span style={{ fontWeight: 900, minWidth: '18px', textAlign: 'center', fontSize: '0.88rem' }}>{it.quantity}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleUpdateQuantity(it.dish.id, 1)}
-                        style={{ width: '28px', height: '28px', background: 'transparent', color: '#ffffff', border: 'none', cursor: 'pointer', fontWeight: 900 }}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Special Instruction Input per item */}
-                  <input
-                    type="text"
-                    placeholder="Cooking note (e.g. less spicy, extra butter)..."
-                    value={it.notes || ''}
-                    onChange={(e) => handleItemNoteChange(it.dish.id, e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: '6px 10px',
-                      backgroundColor: '#ffffff',
-                      border: '1px solid #e2e8f0',
-                      borderRadius: '6px',
-                      color: '#475569',
-                      fontSize: '0.78rem',
-                      outline: 'none'
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* General Delivery Instructions */}
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 750, color: '#64748b', marginBottom: '4px' }}>
-                Delivery Instructions (Optional)
-              </label>
-              <textarea
-                rows={2}
-                placeholder="E.g., Please bring extra plates, cutlery & napkins..."
-                value={orderNotes}
-                onChange={(e) => setOrderNotes(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  backgroundColor: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '10px',
-                  color: '#0f172a',
-                  fontSize: '0.85rem',
-                  outline: 'none',
-                  resize: 'none'
-                }}
-              />
-            </div>
-
-            {/* Preparation Time Notice Banner */}
+          {/* Scrollable Body: Items Table, Bill Details & Terms */}
+          <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
+            {/* Items Table */}
             <div style={{
-              backgroundColor: '#fdf2f8',
               borderRadius: '12px',
-              padding: '12px 14px',
-              marginBottom: '16px',
-              border: '1px solid #fbd3e4'
+              border: '1px solid #e2e8f0',
+              overflow: 'hidden',
+              backgroundColor: '#ffffff',
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#8c5d77' }}>
-                  ⏱️ Estimated Food Preparation Time
-                </span>
-                <span style={{ fontSize: '0.92rem', fontWeight: 900, color: '#8c5d77' }}>
-                  ~{currentEstimatedPrep}
-                </span>
-              </div>
-              <div style={{ fontSize: '0.74rem', color: '#64748b' }}>
-                Tier Scale: ₹1–200 (15m) • ₹200–500 (20m) • ₹500–1000 (25m) • ₹1000–3000 (+35m)
-              </div>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+                <thead>
+                  <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#64748b' }}>
+                    <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 800, fontSize: '0.78rem' }}>Item</th>
+                    <th style={{ textAlign: 'center', padding: '10px 8px', fontWeight: 800, fontSize: '0.78rem' }}>Rate</th>
+                    <th style={{ textAlign: 'center', padding: '10px 8px', fontWeight: 800, fontSize: '0.78rem' }}>Qty</th>
+                    <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 800, fontSize: '0.78rem' }}>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cartItems.map((it, idx) => {
+                    const price = Math.round(parseFloat(it.dish.price || 0));
+                    const lineTotal = Math.round(price * it.quantity);
+                    const isVeg = it.dish.is_veg !== 0;
+                    return (
+                      <tr key={it.dish.id} style={{ borderBottom: idx < cartItems.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
+                        <td style={{ padding: '10px 12px', verticalAlign: 'top' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{
+                              width: '12px',
+                              height: '12px',
+                              border: `1.5px solid ${isVeg ? '#16a34a' : '#e11d48'}`,
+                              borderRadius: '2px',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              backgroundColor: '#ffffff',
+                              flexShrink: 0
+                            }}>
+                              {isVeg ? (
+                                <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#16a34a' }}></span>
+                              ) : (
+                                <span style={{ width: 0, height: 0, borderLeft: '3px solid transparent', borderRight: '3.5px solid transparent', borderBottom: '5px solid #e11d48' }}></span>
+                              )}
+                            </span>
+                            <span style={{ fontWeight: 800, color: '#0f172a', fontSize: '0.9rem' }}>{it.dish.name}</span>
+                          </div>
+                          {/* Note input directly below dish */}
+                          <input
+                            type="text"
+                            placeholder="Cooking note (e.g. less spicy)..."
+                            value={it.notes || ''}
+                            onChange={(e) => handleItemNoteChange(it.dish.id, e.target.value)}
+                            style={{
+                              width: '100%',
+                              boxSizing: 'border-box',
+                              marginTop: '6px',
+                              padding: '4px 8px',
+                              borderRadius: '6px',
+                              border: '1px solid #e2e8f0',
+                              fontSize: '0.74rem',
+                              color: '#475569',
+                              outline: 'none',
+                              backgroundColor: '#f8fafc'
+                            }}
+                          />
+                        </td>
+                        <td style={{ textAlign: 'center', padding: '10px 8px', color: '#64748b', fontWeight: 600, verticalAlign: 'top', whiteSpace: 'nowrap' }}>
+                          ₹{price}
+                        </td>
+                        <td style={{ textAlign: 'center', padding: '10px 6px', verticalAlign: 'top' }}>
+                          <div style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            backgroundColor: '#8c5d77',
+                            borderRadius: '6px',
+                            color: '#ffffff',
+                            overflow: 'hidden'
+                          }}>
+                            <button
+                              type="button"
+                              onClick={() => handleUpdateQuantity(it.dish.id, -1)}
+                              style={{
+                                width: '22px',
+                                height: '24px',
+                                background: 'transparent',
+                                color: '#ffffff',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontWeight: 900,
+                                fontSize: '0.9rem',
+                                padding: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                              }}
+                            >
+                              −
+                            </button>
+                            <span style={{ fontWeight: 800, minWidth: '16px', textAlign: 'center', fontSize: '0.8rem' }}>
+                              {it.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleUpdateQuantity(it.dish.id, 1)}
+                              style={{
+                                width: '22px',
+                                height: '24px',
+                                background: 'transparent',
+                                color: '#ffffff',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontWeight: 900,
+                                fontSize: '0.9rem',
+                                padding: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                              }}
+                            >
+                              +
+                            </button>
+                          </div>
+                        </td>
+                        <td style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 800, color: '#0f172a', verticalAlign: 'top', whiteSpace: 'nowrap' }}>
+                          ₹{lineTotal}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
 
             {/* Bill Details Breakdown with GST */}
-            <div style={{ backgroundColor: '#f8fafc', borderRadius: '12px', padding: '14px', marginBottom: '16px', border: '1px solid #e2e8f0' }}>
+            <div style={{ backgroundColor: '#f8fafc', borderRadius: '12px', padding: '14px', marginTop: '16px', border: '1px solid #e2e8f0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#64748b', marginBottom: '6px' }}>
                 <span>Item Subtotal</span>
-                <span>₹{Math.round(cartSubtotal)}/-</span>
+                <span style={{ fontWeight: 700, color: '#0f172a' }}>₹{Math.round(cartSubtotal)}/-</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#64748b', marginBottom: '8px' }}>
                 <span>GST (5%)</span>
-                <span>+ ₹{Math.round(cartGst)}/-</span>
+                <span style={{ fontWeight: 700, color: '#0f172a' }}>+ ₹{Math.round(cartGst)}/-</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 900, color: '#0f172a', borderTop: '1px dashed #cbd5e1', paddingTop: '8px' }}>
-                <span>Final Amount</span>
+                <span>Final Total</span>
                 <span style={{ color: '#8c5d77' }}>₹{cartRoundedTotal}/-</span>
               </div>
               <div style={{ fontSize: '0.76rem', color: '#16a34a', marginTop: '6px', fontWeight: 700 }}>
@@ -1373,7 +1497,7 @@ export default function App() {
               border: agreedToTerms ? '1.5px solid #86efac' : '1px solid #e2e8f0',
               borderRadius: '12px',
               padding: '12px 14px',
-              marginBottom: '16px',
+              marginTop: '16px',
               transition: 'all 0.15s ease'
             }}>
               <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer' }}>
@@ -1390,15 +1514,22 @@ export default function App() {
                   }}
                 />
                 <div style={{ fontSize: '0.82rem', color: '#0f172a', lineHeight: '1.4' }}>
-                  <strong>I agree</strong> to the food preparation time (<strong>~{currentEstimatedPrep}</strong>) and room dining terms. 
+                  <strong>I agree</strong> to the room dining terms.
                   <div style={{ fontSize: '0.74rem', color: '#64748b', marginTop: '2px' }}>
                     Orders are freshly prepared by our chefs and cannot be cancelled online once sent to the kitchen.
                   </div>
                 </div>
               </label>
             </div>
+          </div>
 
-            {/* Submit Order Button (Gated strictly by checkbox & kitchen status) */}
+          {/* Fixed Footer with "Place Order" Button */}
+          <div style={{
+            padding: '14px 16px',
+            borderTop: '1px solid #e2e8f0',
+            backgroundColor: '#ffffff',
+            flexShrink: 0
+          }}>
             <button
               type="button"
               onClick={handleSendOrder}
@@ -1407,11 +1538,11 @@ export default function App() {
                 width: '100%',
                 padding: '14px',
                 background: (!agreedToTerms || !timingInfo.isOpen)
-                  ? '#cbd5e1'
+                  ? '#e2e8f0'
                   : 'linear-gradient(135deg, #8c5d77 0%, #73465f 100%)',
-                color: (!agreedToTerms || !timingInfo.isOpen) ? '#64748b' : '#ffffff',
+                color: (!agreedToTerms || !timingInfo.isOpen) ? '#94a3b8' : '#ffffff',
                 border: 'none',
-                borderRadius: '14px',
+                borderRadius: '12px',
                 fontWeight: 900,
                 fontSize: '1rem',
                 cursor: (!agreedToTerms || !timingInfo.isOpen) ? 'not-allowed' : 'pointer',
@@ -1419,16 +1550,15 @@ export default function App() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: (agreedToTerms && timingInfo.isOpen) ? '0 4px 16px rgba(140, 93, 119, 0.35)' : 'none'
+                boxShadow: (agreedToTerms && timingInfo.isOpen) ? '0 4px 16px rgba(140, 93, 119, 0.35)' : 'none',
+                transition: 'all 0.15s ease'
               }}
             >
               {isSubmitting
                 ? 'Transmitting to Kitchen...'
                 : !timingInfo.isOpen
                 ? 'Kitchen Currently Closed'
-                : !agreedToTerms
-                ? 'Please Check "I Agree" to Order'
-                : `PLACE ORDER • ₹${cartRoundedTotal}/- 🛎️`}
+                : 'Place Order'}
             </button>
           </div>
         </div>
@@ -1495,10 +1625,6 @@ export default function App() {
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span style={{ fontSize: '0.82rem', color: '#64748b' }}>Delivery To:</span>
                 <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#0f172a' }}>Room {selectedRoom}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontSize: '0.82rem', color: '#64748b' }}>Est. Prep Time:</span>
-                <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#8c5d77' }}>~{lastOrder.estimatedPrep || '20 mins'}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px dashed #cbd5e1', paddingTop: '8px' }}>
                 <span style={{ fontSize: '0.82rem', color: '#64748b' }}>Total Amount:</span>
