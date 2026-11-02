@@ -180,7 +180,8 @@ export default function App() {
   // Derived category list with counts
   const categoryList = useMemo(() => {
     if (!session?.menu) return ['ALL'];
-    const cats = new Set(session.menu.map(d => (d.category || 'General').trim()).filter(Boolean));
+    const activeDishes = session.menu.filter(d => d.is_available !== 0 && d.is_available !== false);
+    const cats = new Set(activeDishes.map(d => (d.category || 'General').trim()).filter(Boolean));
     return ['ALL', ...Array.from(cats)];
   }, [session?.menu]);
 
@@ -188,6 +189,9 @@ export default function App() {
   const filteredDishes = useMemo(() => {
     if (!session?.menu) return [];
     return session.menu.filter(dish => {
+      if (dish.is_available === 0 || dish.is_available === false) {
+        return false;
+      }
       if (activeCategory !== 'ALL' && (dish.category || '').toLowerCase() !== activeCategory.toLowerCase()) {
         return false;
       }
