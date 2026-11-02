@@ -1541,7 +1541,7 @@ export default function App() {
                   }}
                 />
                 <div style={{ fontSize: '0.82rem', color: '#0f172a', lineHeight: '1.4' }}>
-                  <strong>I agree</strong> to the room dining terms.
+                  <strong>I agree</strong> to the food preparation time (<strong>~{currentEstimatedPrep}</strong>) and room dining terms.
                   <div style={{ fontSize: '0.74rem', color: '#64748b', marginTop: '2px' }}>
                     Orders are freshly prepared by our chefs and cannot be cancelled online once sent to the kitchen.
                   </div>
