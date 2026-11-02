@@ -1501,9 +1501,6 @@ export default function App() {
                 <span>Final Total</span>
                 <span style={{ color: '#8c5d77' }}>₹{cartRoundedTotal}/-</span>
               </div>
-              <div style={{ fontSize: '0.76rem', color: '#16a34a', marginTop: '6px', fontWeight: 700 }}>
-                ✓ No payment required now: Billed to Room {selectedRoom} checkout folio
-              </div>
             </div>
 
             {/* Mandatory "I Agree" Checkbox Gate */}
